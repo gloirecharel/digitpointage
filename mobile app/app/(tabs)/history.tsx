@@ -51,7 +51,7 @@ export default function HistoryScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: { color: '#102536', fontSize: 26, fontWeight: '800', marginBottom: 4 },
+  title: { color: '#17233f', fontSize: 26, fontWeight: '800', marginBottom: 4 },
   subtitle: { color: '#82909e', fontSize: 14, marginBottom: 18 },
   list: { gap: 10 },
   row: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 12 },

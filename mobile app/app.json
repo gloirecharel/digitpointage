@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "bolt-expo-nativewind",
-    "slug": "bolt-expo-nativewind",
+    "name": "DigitPointage",
+    "slug": "digitpointage",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/Original_Logo_Cyan_with_White_Background.png",

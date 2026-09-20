@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -17,6 +18,7 @@ import { useClientSession } from '@/context/ClientSession';
 
 export function LoginScreen() {
   const { signIn, loading, error, clearError } = useClientSession();
+  const scrollViewRef = useRef<ScrollView>(null);
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -28,8 +30,15 @@ export function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <LinearGradient colors={['#2447f5', '#2f5bff', '#1741d8']} style={styles.topPanel}>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView
+          ref={scrollViewRef}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+          showsVerticalScrollIndicator={false}
+        >
+          <LinearGradient colors={['#2447f5', '#2f5bff', '#1741d8']} style={styles.topPanel}>
           <View style={styles.orbOne} />
           <View style={styles.orbTwo} />
           <AnimatedEntrance delay={30}>
@@ -42,9 +51,9 @@ export function LoginScreen() {
             <Text style={styles.heroTitle}>Votre épargne, en toute simplicité.</Text>
             <Text style={styles.heroSubtitle}>Suivez vos versements et votre solde depuis votre espace personnel.</Text>
           </AnimatedEntrance>
-        </LinearGradient>
+          </LinearGradient>
 
-        <View style={styles.formShell}>
+          <View style={styles.formShell}>
           <AnimatedEntrance delay={200}>
             <Text style={styles.formTitle}>Bienvenue dans votre espace</Text>
             <Text style={styles.formSubtitle}>Connectez-vous pour continuer</Text>
@@ -82,6 +91,7 @@ export function LoginScreen() {
                     placeholderTextColor="#9aa5b1"
                     secureTextEntry={!showPassword}
                     autoCorrect={false}
+                    onFocus={() => setTimeout(() => scrollViewRef.current?.scrollToEnd({ animated: true }), 120)}
                   />
                   <Pressable onPress={() => setShowPassword((value) => !value)} accessibilityLabel={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}>
                     {showPassword ? <EyeOff size={19} color="#718091" /> : <Eye size={19} color="#718091" />}
@@ -108,7 +118,8 @@ export function LoginScreen() {
               <Text style={styles.secureText}>Connexion sécurisée et confidentielle</Text>
             </View>
           </View>
-        </View>
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -117,6 +128,7 @@ export function LoginScreen() {
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#f5f7ff' },
   container: { flex: 1 },
+  scrollContent: { flexGrow: 1, paddingBottom: 32 },
   topPanel: { minHeight: 345, paddingHorizontal: 28, paddingTop: 34, paddingBottom: 48, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   orbOne: { position: 'absolute', width: 240, height: 240, borderRadius: 120, backgroundColor: 'rgba(255,255,255,0.08)', top: -100, right: -70 },
   orbTwo: { position: 'absolute', width: 170, height: 170, borderRadius: 85, backgroundColor: 'rgba(10,26,130,0.13)', bottom: -85, left: -55 },
@@ -125,7 +137,7 @@ const styles = StyleSheet.create({
   eyebrow: { color: '#dbe3ff', fontSize: 11, fontWeight: '800', letterSpacing: 2, textAlign: 'center', marginBottom: 10 },
   heroTitle: { color: '#fff', fontSize: 25, lineHeight: 31, fontWeight: '800', textAlign: 'center', marginBottom: 8 },
   heroSubtitle: { color: '#dbe3ff', fontSize: 14, lineHeight: 21, textAlign: 'center', maxWidth: 310 },
-  formShell: { flex: 1, backgroundColor: '#f5f7ff', marginTop: -24, borderTopLeftRadius: 28, borderTopRightRadius: 28, padding: 24, paddingTop: 27 },
+  formShell: { flexGrow: 1, backgroundColor: '#f5f7ff', marginTop: -24, borderTopLeftRadius: 28, borderTopRightRadius: 28, padding: 24, paddingTop: 27 },
   formTitle: { color: '#17233f', fontSize: 21, fontWeight: '800', marginBottom: 5 },
   formSubtitle: { color: '#718091', fontSize: 14, marginBottom: 22 },
   form: { gap: 17 },

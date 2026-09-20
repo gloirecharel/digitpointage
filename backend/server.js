@@ -3,6 +3,7 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mysql = require("mysql2/promise");
+const crypto = require("crypto");
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 
@@ -278,6 +279,10 @@ function normalizeOptionalValue(value) {
   return text === "" ? null : text;
 }
 
+function generateTemporaryPassword() {
+  return `DP-${crypto.randomBytes(6).toString("hex")}`;
+}
+
 async function logAction(userId, action, details=""){
   try { await run("INSERT INTO audit_logs(user_id, action, details) VALUES(?,?,?)", [userId, action, details]); } catch(e){}
 }
@@ -457,6 +462,18 @@ app.put("/api/users/:id/status", auth, requireRole("ADMIN"), async (req,res)=>{
   await run("UPDATE users SET status=? WHERE id=?", [req.body.status, req.params.id]);
   res.json({message:"Statut modifié"});
 });
+app.post("/api/users/:id/reset-password", auth, requireRole("SUPER_ADMIN"), async (req,res)=>{
+  try {
+    const user = await get("SELECT id,username,role FROM users WHERE id=?", [req.params.id]);
+    if(!user) return res.status(404).json({message:"Utilisateur introuvable"});
+    if(user.role === "SUPER_ADMIN") return res.status(400).json({message:"Le mot de passe du Super Admin ne peut pas être réinitialisé ici"});
+    const temporaryPassword = generateTemporaryPassword();
+    const passwordHash = await bcrypt.hash(temporaryPassword, 10);
+    await run("UPDATE users SET password_hash=? WHERE id=?", [passwordHash, user.id]);
+    await logAction(req.user.id, "REINITIALISATION_MOT_DE_PASSE", `Utilisateur ${user.username}`);
+    res.json({message:"Mot de passe réinitialisé", temporaryPassword});
+  } catch(err) { res.status(500).json({message:"Erreur réinitialisation utilisateur", error:err.message}); }
+});
 
 app.get("/api/clients", auth, requireRole("ADMIN","CAISSIER","CONSULTATION"), async (req,res)=>{
   res.json(await all("SELECT * FROM clients ORDER BY id DESC"));
@@ -546,6 +563,17 @@ app.put("/api/clients/:id", auth, requireRole("ADMIN","CAISSIER"), async (req,re
     await logAction(req.user.id, "MODIFICATION_CLIENT", `${normalizedCode} - ${normalizedName}`);
     res.json({message:"Client modifié"});
   }catch(err){ res.status(500).json({message:"Erreur modification client", error:err.message}); }
+});
+app.post("/api/clients/:id/reset-password", auth, requireRole("SUPER_ADMIN"), async (req,res)=>{
+  try {
+    const client = await get("SELECT id,code FROM clients WHERE id=?", [req.params.id]);
+    if(!client) return res.status(404).json({message:"Client introuvable"});
+    const temporaryPassword = generateTemporaryPassword();
+    const passwordHash = await bcrypt.hash(temporaryPassword, 10);
+    await run("UPDATE clients SET password_hash=? WHERE id=?", [passwordHash, client.id]);
+    await logAction(req.user.id, "REINITIALISATION_MOT_DE_PASSE_CLIENT", `Client ${client.code}`);
+    res.json({message:"Mot de passe client réinitialisé", temporaryPassword});
+  } catch(err) { res.status(500).json({message:"Erreur réinitialisation client", error:err.message}); }
 });
 
 app.delete("/api/clients/:id", auth, requireRole("ADMIN"), async (req,res)=>{

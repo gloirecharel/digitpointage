@@ -71,6 +71,8 @@ export const api = {
     request<{ message: string }>('/users', { method: 'POST', body: JSON.stringify(data) }),
   updateUserStatus: (id: number, status: string) =>
     request<{ message: string }>(`/users/${id}/status`, { method: 'PUT', body: JSON.stringify({ status }) }),
+  resetUserPassword: (id: number) =>
+    request<{ message: string; temporaryPassword: string }>(`/users/${id}/reset-password`, { method: 'POST' }),
 
   // Clients
   getClients: () => request<Client[]>('/clients'),
@@ -78,6 +80,8 @@ export const api = {
     request<{ message: string }>('/clients', { method: 'POST', body: JSON.stringify(data) }),
   updateClient: (id: number, data: Partial<Client>) =>
     request<{ message: string }>(`/clients/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  resetClientPassword: (id: number) =>
+    request<{ message: string; temporaryPassword: string }>(`/clients/${id}/reset-password`, { method: 'POST' }),
   deleteClient: (id: number) =>
     request<{ message: string }>(`/clients/${id}`, { method: 'DELETE' }),
   getClientSummary: (id: number) => request<ClientSummary>(`/clients/${id}/summary`),

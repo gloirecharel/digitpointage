@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'react-native';
-import { BadgeCheck, CalendarDays, CreditCard, Hash, Home, LogOut, MapPin, Phone, User, Wallet } from 'lucide-react-native';
+import { BadgeCheck, CalendarDays, CreditCard, Hash, LogOut, MapPin, Phone, User, Wallet } from 'lucide-react-native';
 import { useClientSession } from '@/context/ClientSession';
 import { formatMoney, Screen } from '@/components/ClientLayout';
 import type { ReactNode } from 'react';
@@ -16,7 +16,7 @@ export default function ProfileScreen() {
         <Image source={require('@/assets/images/Original_Logo_Cyan_with_White_Background.png')} style={styles.logo} resizeMode="contain" />
         <Text style={styles.name}>{user?.full_name || 'Client'}</Text>
         <View style={styles.codeBadge}>
-          <Hash size={12} color="#0a7fa9" />
+          <Hash size={12} color="#2f5bff" />
           <Text style={styles.codeText}>{client?.code || user?.username}</Text>
         </View>
       </View>
@@ -35,13 +35,13 @@ export default function ProfileScreen() {
 
       <Text style={styles.sectionTitle}>Informations du compte</Text>
       <View style={styles.card}>
-        <Row icon={<User size={18} color="#0a7fa9" />} label="Nom complet" value={client?.full_name || user?.full_name || '—'} />
-        <Row icon={<BadgeCheck size={18} color="#0a7fa9" />} label="Type de compte" value={accountLabel} />
-        <Row icon={<CreditCard size={18} color="#0a7fa9" />} label="Statut" value={client?.status ? (client.status === 'ACTIVE' ? 'Actif' : client.status) : '—'} />
-        <Row icon={<Wallet size={18} color="#0a7fa9" />} label="Montant fixe" value={formatMoney(client?.fixed_amount || 0)} />
-        <Row icon={<Phone size={18} color="#0a7fa9" />} label="Téléphone" value={client?.phone || 'Non renseigné'} />
-        <Row icon={<MapPin size={18} color="#0a7fa9" />} label="Adresse" value={client?.address || 'Non renseignée'} />
-        <Row icon={<CalendarDays size={18} color="#0a7fa9" />} label="Inscrit le" value={client?.created_at ? formatDate(client.created_at) : '—'} />
+        <Row icon={<User size={18} color="#2f5bff" />} label="Nom complet" value={client?.full_name || user?.full_name || '—'} />
+        <Row icon={<BadgeCheck size={18} color="#2f5bff" />} label="Type de compte" value={accountLabel} />
+        <Row icon={<CreditCard size={18} color="#2f5bff" />} label="Statut" value={client?.status ? (client.status === 'ACTIVE' ? 'Actif' : client.status) : '—'} />
+        <Row icon={<Wallet size={18} color="#2f5bff" />} label="Montant fixe" value={formatMoney(client?.fixed_amount || 0)} />
+        <Row icon={<Phone size={18} color="#2f5bff" />} label="Téléphone" value={client?.phone || 'Non renseigné'} />
+        <Row icon={<MapPin size={18} color="#2f5bff" />} label="Adresse" value={client?.address || 'Non renseignée'} />
+        <Row icon={<CalendarDays size={18} color="#2f5bff" />} label="Inscrit le" value={client?.created_at ? formatDate(client.created_at) : '—'} />
       </View>
 
       <Pressable style={styles.signOut} onPress={signOut}>
@@ -74,18 +74,18 @@ function formatDate(value: string) {
 const styles = StyleSheet.create({
   hero: { alignItems: 'center', marginBottom: 22 },
   logo: { width: 90, height: 90, borderRadius: 20, marginBottom: 14 },
-  name: { color: '#102536', fontSize: 22, fontWeight: '800' },
-  codeBadge: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#eaf6fb', paddingHorizontal: 12, paddingVertical: 5, borderRadius: 20, marginTop: 8 },
-  codeText: { color: '#0a7fa9', fontSize: 13, fontWeight: '700' },
-  balanceRow: { flexDirection: 'row', backgroundColor: '#0b789c', borderRadius: 20, padding: 18, marginBottom: 24 },
+  name: { color: '#17233f', fontSize: 22, fontWeight: '800' },
+  codeBadge: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: '#e9edff', paddingHorizontal: 12, paddingVertical: 5, borderRadius: 20, marginTop: 8 },
+  codeText: { color: '#2f5bff', fontSize: 13, fontWeight: '700' },
+  balanceRow: { flexDirection: 'row', backgroundColor: '#2f5bff', borderRadius: 20, padding: 18, marginBottom: 24 },
   balanceItem: { flex: 1, alignItems: 'center' },
   balanceDivider: { width: 1, backgroundColor: 'rgba(255,255,255,0.22)' },
   balanceLabel: { color: '#bfeaf4', fontSize: 10, fontWeight: '700', letterSpacing: 1.2, marginBottom: 6 },
   balanceValue: { color: '#fff', fontSize: 18, fontWeight: '800' },
-  sectionTitle: { color: '#203245', fontSize: 16, fontWeight: '700', marginBottom: 10, marginLeft: 4 },
-  card: { backgroundColor: '#fff', borderRadius: 18, padding: 4, marginBottom: 24 },
+  sectionTitle: { color: '#17233f', fontSize: 16, fontWeight: '700', marginBottom: 10, marginLeft: 4 },
+  card: { backgroundColor: '#fff', borderWidth: 1, borderColor: '#e1e7f5', borderRadius: 18, padding: 4, marginBottom: 24, shadowColor: '#5265a8', shadowOpacity: 0.06, shadowRadius: 12, shadowOffset: { width: 0, height: 4 }, elevation: 2 },
   row: { flexDirection: 'row', alignItems: 'center', padding: 14, gap: 14 },
-  rowIcon: { width: 38, height: 38, borderRadius: 12, backgroundColor: '#eaf6fb', alignItems: 'center', justifyContent: 'center' },
+  rowIcon: { width: 38, height: 38, borderRadius: 12, backgroundColor: '#e9edff', alignItems: 'center', justifyContent: 'center' },
   rowBody: { flex: 1 },
   rowLabel: { color: '#83919e', fontSize: 12, marginBottom: 4 },
   rowValue: { color: '#213344', fontSize: 15, fontWeight: '700' },

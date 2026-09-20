@@ -99,16 +99,16 @@ function mapRequestToNotif(req: WithdrawalRequest): NotifItem {
 
 const styles = StyleSheet.create({
   header: { marginBottom: 18 },
-  title: { color: '#102536', fontSize: 26, fontWeight: '800' },
+  title: { color: '#17233f', fontSize: 26, fontWeight: '800' },
   subtitle: { color: '#82909e', fontSize: 13, marginTop: 4 },
   list: { gap: 12 },
   card: { flexDirection: 'row', backgroundColor: '#fff', borderRadius: 18, padding: 16, gap: 14 },
   iconWrap: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   body: { flex: 1 },
-  cardTitle: { color: '#203245', fontSize: 15, fontWeight: '700', marginBottom: 4 },
+  cardTitle: { color: '#17233f', fontSize: 15, fontWeight: '700', marginBottom: 4 },
   cardMessage: { color: '#6b7a88', fontSize: 13, lineHeight: 19, marginBottom: 8 },
   meta: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  amount: { color: '#0a7fa9', fontSize: 13, fontWeight: '800' },
+  amount: { color: '#2f5bff', fontSize: 13, fontWeight: '800' },
   dot: { color: '#b6c0ca' },
   date: { color: '#9aa6b2', fontSize: 12 },
 });
