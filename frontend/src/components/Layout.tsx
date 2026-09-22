@@ -7,6 +7,7 @@ import {
 import { useAuth } from '@/lib/auth';
 import { api } from '@/lib/api';
 import type { UserRole } from '@/lib/types';
+import logo from '@/assets/digitpointage-logo.svg';
 
 export type PageKey =
   | 'dashboard' | 'clients' | 'operations' | 'withdrawals'
@@ -71,7 +72,7 @@ export function Layout({ current, onNavigate, children }: { current: PageKey; on
       <aside className={`fixed z-40 flex h-full w-64 flex-col bg-slate-900 transition-transform lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center gap-3 px-5 py-5 border-b border-slate-700">
           <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-white/5 ring-1 ring-white/10">
-            <img src="/src/assets/digitpointage-logo.svg" alt="DigitPointage" className="h-8 w-8 object-contain" />
+            <img src={logo} alt="DigitPointage" className="h-8 w-8 object-contain" />
           </div>
           <div>
             <p className="text-white font-bold text-sm">DigitPointage</p>

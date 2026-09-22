@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/lib/auth';
 import {  Lock, User, AlertCircle, Eye, EyeOff, ShieldCheck, ArrowRight, Wallet } from 'lucide-react';
+import logo from '@/assets/digitpointage-logo.svg';
 
 export function LoginPage() {
   const { login } = useAuth();
@@ -48,9 +49,9 @@ export function LoginPage() {
           <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-500 via-blue-500 to-cyan-400 shadow-2xl shadow-blue-500/40 animate-pulse-glow">
             <Wallet className="text-white" size={38} />
           </div>
-          {/* <div className="mx-auto mb-5 flex h-28 w-28 items-center justify-center rounded-3xl bg-transparent shadow-none">
-            <img src="/src/assets/digitpointage-logo.svg" alt="DigitPointage" className="h-28 w-28 object-contain" />
-          </div> */}
+          <div className="mx-auto mb-5 flex h-28 w-28 items-center justify-center rounded-3xl bg-transparent shadow-none">
+            <img src={logo} alt="DigitPointage" className="h-28 w-28 object-contain" />
+          </div>
           <h1 className="text-5xl font-bold tracking-tight text-blue-600">
             DigitPointage
           </h1>
