@@ -17,8 +17,7 @@ import type {
   ClientPortalData,
 } from './types';
 
-const API_BASE = import.meta.env.VITE_API_URL
-  || `${window.location.protocol}//${window.location.hostname}:3002/api`;
+const API_BASE = import.meta.env.VITE_API_URL || 'https://digitpointage-api.onrender.com/api';
 
 let cachedToken: string | null = null;
 
