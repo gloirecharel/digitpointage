@@ -1,17 +1,22 @@
 import Constants from 'expo-constants';
 
+const DEFAULT_SERVER_URL = 'https://digitpointage-api.onrender.com';
 const API_PORT = 3002;
 
 function getServerUrl() {
   const configuredUrl = process.env.EXPO_PUBLIC_API_URL?.trim();
   if (configuredUrl) return configuredUrl.replace(/\/$/, '');
+
+  const expoUrl = Constants.expoConfig?.extra?.apiUrl?.trim();
+  if (expoUrl) return expoUrl.replace(/\/$/, '');
+
   if (typeof window !== 'undefined') {
     return `${window.location.protocol}//${window.location.hostname}:${API_PORT}`;
   }
 
   const hostUri = Constants.expoConfig?.hostUri || Constants.manifest2?.extra?.expoGo?.debuggerHost;
   const metroHost = hostUri?.split(':')[0];
-  return metroHost ? `http://${metroHost}:${API_PORT}` : `http://10.128.119.200:${API_PORT}`;
+  return metroHost ? `http://${metroHost}:${API_PORT}` : DEFAULT_SERVER_URL;
 }
 
 export const SERVER_URL = getServerUrl();
